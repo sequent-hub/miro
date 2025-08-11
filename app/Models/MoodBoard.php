@@ -42,9 +42,9 @@ class MoodBoard extends Model
 
         static::creating(function ($model) {
             if (empty($model->board_id)) {
-                $model->board_id = Str::random(12);
+                // Генерируем короткий безопасный ID
+                $model->board_id = static::generateShortId();
             }
-
             if (empty($model->last_saved_at)) {
                 $model->last_saved_at = now();
             }
@@ -54,6 +54,26 @@ class MoodBoard extends Model
             $model->last_saved_at = now();
             $model->version++;
         });
+    }
+
+    /**
+     * Генерация короткого безопасного ID
+     */
+    public static function generateShortId(): string
+    {
+        $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        $id = '';
+
+        for ($i = 0; $i < 11; $i++) {
+            $id .= $characters[random_int(0, strlen($characters) - 1)];
+        }
+
+        // Проверяем уникальность
+        while (static::where('board_id', $id)->exists()) {
+            $id = static::generateShortId();
+        }
+
+        return $id;
     }
 
     /**
@@ -69,16 +89,23 @@ class MoodBoard extends Model
      */
     public static function createOrUpdateBoard(string $boardId, array $data, array $settings = null)
     {
+        // Если boardId пустой или 'default', генерируем новый
+        if (empty($boardId) || $boardId === 'default') {
+            $boardId = static::generateShortId();
+        }
+
         $board = static::findByBoardId($boardId);
 
         if ($board) {
+            // Обновляем существующую доску
             $board->update([
                 'data' => $data,
                 'settings' => $settings ?? $board->settings,
             ]);
         } else {
+            // Создаем новую доску с явным указанием board_id
             $board = static::create([
-                'board_id' => $boardId,
+                'board_id' => $boardId,  // ✅ Явно указываем ID
                 'name' => $data['name'] ?? 'Untitled Board',
                 'description' => $data['description'] ?? null,
                 'data' => $data,

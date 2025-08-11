@@ -34,21 +34,30 @@ document.addEventListener('DOMContentLoaded', async () => {
  * Получение ID доски
  */
 function getBoardId() {
-    // Пробуем получить из data-атрибута контейнера
+    // 1. Из data-атрибута контейнера
     const container = document.getElementById('moodboard-container');
     const dataId = container?.getAttribute('data-board-id');
     if (dataId) return dataId;
 
-    // Пробуем получить из URL (например: /boards/123)
-    const urlMatch = window.location.pathname.match(/\/boards\/(\w+)/);
+    // 2. Из URL (например: /boards/uXjVJdaJhdk)
+    const urlMatch = window.location.pathname.match(/\/boards\/([a-zA-Z0-9_-]+)/);
     if (urlMatch) return urlMatch[1];
 
-    // Получаем из meta тега
+    // 3. Из meta тега
     const metaId = document.querySelector('meta[name="board-id"]')?.getAttribute('content');
     if (metaId) return metaId;
 
-    // По умолчанию
-    return 'default-board';
+    // 4. Генерируем новый короткий ID
+    return generateShortId();
+}
+
+function generateShortId() {
+    const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let result = '';
+    for (let i = 0; i < 11; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
 }
 
 /**
@@ -117,26 +126,4 @@ function showError(message) {
     }, 5000);
 }
 
-// В app.js после создания moodboard добавьте тест
-console.log('🧪 Тестируем сохранение напрямую...');
 
-// Простой тест POST запроса
-fetch('/api/test', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
-        'X-Requested-With': 'XMLHttpRequest'
-    },
-    body: JSON.stringify({
-        boardId: 'test',
-        boardData: { objects: [] }
-    })
-})
-    .then(response => {
-        console.log('✅ Тест ответ:', response.data);
-        return response.json();
-    })
-    .then(data => console.log('✅ Тест данные:', data))
-    .catch(error => console.error('❌ Тест ошибка:', error));
