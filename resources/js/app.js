@@ -2,7 +2,7 @@ import { MoodBoard } from '@futurello/moodboard';
 import '@futurello/moodboard/style.css';
 
 document.addEventListener('DOMContentLoaded', async () => {
-    console.log('🚀 Инициализация MoodBoard...');
+   /* console.log('🚀 Инициализация MoodBoard...');*/
 
     try {
         // Получаем ID доски (можно настроить под свои нужды)
@@ -22,10 +22,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Настраиваем обработчики событий автосохранения
         setupEventHandlers(moodboard);
 
-        console.log('✅ MoodBoard успешно инициализирован с автосохранением');
+       /* console.log('✅ MoodBoard успешно инициализирован с автосохранением');*/
 
     } catch (error) {
-        console.error('❌ Ошибка инициализации MoodBoard:', error);
+       // console.error('❌ Ошибка инициализации MoodBoard:', error);
         showError('Не удалось загрузить редактор. Попробуйте обновить страницу.');
     }
 });
@@ -66,12 +66,12 @@ function generateShortId() {
 function setupEventHandlers(moodboard) {
     // Обработка успешного сохранения
     moodboard.coreMoodboard.eventBus.on('save:success', (data) => {
-        console.log('💾 Данные сохранены:', data.timestamp);
+       // console.log('💾 Данные сохранены:', data.timestamp);
     });
 
     // Обработка ошибок сохранения
     moodboard.coreMoodboard.eventBus.on('save:error', (data) => {
-        console.error('❌ Ошибка сохранения:', data.error);
+       // console.error('❌ Ошибка сохранения:', data.error);
 
         // Можно показать пользователю уведомление
         if (data.retryCount >= 3) {
@@ -81,7 +81,7 @@ function setupEventHandlers(moodboard) {
 
     // Обработка статуса сохранения (для отладки)
     moodboard.coreMoodboard.eventBus.on('save:status-changed', (data) => {
-        console.log(`📊 Статус сохранения: ${data.status}`);
+      //  console.log(`📊 Статус сохранения: ${data.status}`);
     });
 
     // Предотвращение случайного закрытия с несохраненными изменениями
