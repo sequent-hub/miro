@@ -22,7 +22,20 @@ jobs:
             echo "=== Connected to server successfully! ==="
             echo "Current directory: $(pwd)"
             echo "Current user: $(whoami)"
-            echo "Server info: $(uname -a)"
-            echo "Available disk space:"
+            
+            echo "=== Checking project directory ==="
+            if [ -d "/var/www/miro" ]; then
+              echo "✅ Project directory exists"
+              cd /var/www/miro
+              echo "Project path: $(pwd)"
+              ls -la
+            else
+              echo "❌ Project directory does not exist"
+              echo "Creating project directory..."
+              sudo mkdir -p /var/www/miro
+              sudo chown sequent:sequent /var/www/miro
+            fi
+            
+            echo "=== Server info ==="
+            uname -a
             df -h
-            echo "=== Connection test completed ==="
