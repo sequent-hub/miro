@@ -1,5 +1,5 @@
-import { MoodBoard } from '@futurello/moodboard';
-import '@futurello/moodboard/style.css';
+//import { MoodBoard } from '@futurello/moodboard';
+//import '@futurello/moodboard/style.css';
 
 document.addEventListener('DOMContentLoaded', async () => {
    /* console.log('🚀 Инициализация MoodBoard...');*/
