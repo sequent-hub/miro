@@ -35,5 +35,8 @@ Route::prefix('api/moodboard')->group(function () {
     Route::post('/duplicate/{boardId}', [MoodBoardController::class, 'duplicate']);
 });
 
+Route::get('/test', function () {
+    return 'TEST GOOD';
+});
 
 require __DIR__.'/auth.php';
