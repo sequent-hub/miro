@@ -121,6 +121,43 @@ jobs:
               echo "❌ package.json not found"
             fi
             
+            echo "=== Setting up Laravel ==="
+            if [ -f "artisan" ]; then
+              echo "✅ Laravel artisan found"
+              
+              # Проверяем .env файл
+              if [ ! -f ".env" ]; then
+                echo "❌ .env file not found, copying from .env.example"
+                cp .env.example .env
+                php artisan key:generate
+              fi
+              
+              # Очищаем кэш
+              echo "Clearing Laravel caches..."
+              php artisan config:clear
+              php artisan cache:clear
+              php artisan view:clear
+              php artisan route:clear
+              
+              # Кэшируем для production
+              echo "Caching for production..."
+              php artisan config:cache
+              php artisan route:cache
+              php artisan view:cache
+              
+              echo "✅ Laravel setup completed"
+            else
+              echo "❌ Laravel artisan not found"
+            fi
+            
+            echo "=== Setting permissions ==="
+            echo "Setting proper ownership..."
+            sudo chown -R www-data:www-data /var/www/miro
+            sudo chmod -R 755 /var/www/miro
+            sudo chmod -R 775 storage bootstrap/cache
+            
+            echo "✅ Permissions set"
+            
             echo "=== Final project status ==="
             echo "Project structure:"
             ls -la
@@ -129,6 +166,11 @@ jobs:
               echo "✅ Build successful"
             else
               echo "❌ Build failed or not configured"
+            fi
+            
+            echo "Laravel status:"
+            if [ -f "artisan" ]; then
+              php artisan --version
             fi
             
             echo "=== Server info ==="
