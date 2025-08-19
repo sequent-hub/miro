@@ -6,7 +6,6 @@
         "dev": "vite"
     },
     "dependencies": {
-        // "@futurello/moodboard": "file:D:/npm-moodboard-futurello",
         "@tailwindcss/vite": "^4.0.7",
         "autoprefixer": "^10.4.20",
         "axios": "^1.7.4",
