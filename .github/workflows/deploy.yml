@@ -88,9 +88,48 @@ jobs:
               npm install
             fi
             
-            echo "=== Dependencies status ==="
-            echo "PHP vendor: $(ls -la vendor/ | head -5)"
-            echo "Node modules: $(ls -la node_modules/ | head -5)"
+            echo "=== Building project assets ==="
+            if [ -f "package.json" ]; then
+              echo "✅ package.json found"
+              if [ -f "vite.config.js" ]; then
+                echo "✅ Vite config found"
+                echo "Building with Vite..."
+                npm run build
+                echo "✅ Assets built successfully"
+                
+                # Проверяем результат сборки
+                if [ -d "public/build" ]; then
+                  echo "✅ Build directory created"
+                  ls -la public/build/
+                else
+                  echo "❌ Build directory not found"
+                fi
+              else
+                echo "❌ Vite config not found"
+                echo "Checking for other build tools..."
+                if [ -f "webpack.mix.js" ]; then
+                  echo "✅ Laravel Mix found"
+                  npm run dev
+                elif [ -f "webpack.config.js" ]; then
+                  echo "✅ Webpack config found"
+                  npm run build
+                else
+                  echo "❌ No build tool found"
+                fi
+              fi
+            else
+              echo "❌ package.json not found"
+            fi
+            
+            echo "=== Final project status ==="
+            echo "Project structure:"
+            ls -la
+            echo "Build status:"
+            if [ -d "public/build" ]; then
+              echo "✅ Build successful"
+            else
+              echo "❌ Build failed or not configured"
+            fi
             
             echo "=== Server info ==="
             uname -a
