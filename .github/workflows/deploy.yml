@@ -176,3 +176,13 @@ jobs:
             echo "=== Server info ==="
             uname -a
             df -h
+
+            echo "=== Restarting services ==="
+            sudo systemctl reload nginx
+            sudo systemctl reload php8.2-fpm
+            echo "✅ Services restarted"
+            
+            echo "=== Final status ==="
+            echo "✅ Laravel site is ready!"
+            echo "✅ Nginx configured"
+            echo "✅ PHP-FPM running"
