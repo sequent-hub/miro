@@ -36,7 +36,7 @@ Route::prefix('api/moodboard')->group(function () {
 });
 
 Route::get('/test', function () {
-    return 'GOOD TEST';
+    return 'GOOD TEST!';
 });
 
 require __DIR__.'/auth.php';
