@@ -36,6 +36,7 @@ jobs:
 
                 # ОБНОВЛЯЕМ КОД!
                 echo "=== Updating code from GitHub ==="
+                sudo chown -R sequent:sequent /var/www/miro
                 git fetch origin
                 git reset --hard origin/main
                 echo "✅ Code updated to latest commit"
