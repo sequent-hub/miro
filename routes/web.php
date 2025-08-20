@@ -36,7 +36,7 @@ Route::prefix('api/moodboard')->group(function () {
 });
 
 Route::get('/test', function () {
-    return 'Тестовое сообщение для монитора деплоя';
+    return 'Тестовое сообщение для монитора деплоя!!!';
 });
 
 require __DIR__.'/auth.php';
