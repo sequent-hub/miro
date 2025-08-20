@@ -22,18 +22,24 @@ jobs:
             echo "=== Connected to server successfully! ==="
             echo "Current directory: $(pwd)"
             echo "Current user: $(whoami)"
-            
+
             echo "=== Checking project directory ==="
             if [ -d "/var/www/miro" ]; then
               echo "✅ Project directory exists"
               cd /var/www/miro
               echo "Project path: $(pwd)"
-              
-              # Проверяем, что это git репозиторий
+
               if [ -d ".git" ]; then
                 echo "✅ Git repository found"
                 echo "Current branch: $(git branch --show-current)"
                 echo "Last commit: $(git log -1 --oneline)"
+
+                # ОБНОВЛЯЕМ КОД!
+                echo "=== Updating code from GitHub ==="
+                git fetch origin
+                git reset --hard origin/main
+                echo "✅ Code updated to latest commit"
+                echo "New commit: $(git log -1 --oneline)"
               else
                 echo "❌ Not a git repository"
                 echo "Cloning repository..."
@@ -54,14 +60,14 @@ jobs:
               git clone https://github.com/sequent-hub/miro.git .
               sudo chown -R sequent:sequent .
             fi
-            
+
             echo "=== Final project status ==="
             cd /var/www/miro
             pwd
             ls -la
             echo "Git status:"
             git status
-            
+
             echo "=== Installing PHP dependencies ==="
             if command -v composer &> /dev/null; then
               echo "✅ Composer found"
@@ -74,7 +80,7 @@ jobs:
               sudo mv composer.phar /usr/local/bin/composer
               composer install --no-dev --optimize-autoloader
             fi
-            
+
             echo "=== Installing Node.js dependencies ==="
             if command -v npm &> /dev/null; then
               echo "✅ npm found"
@@ -87,7 +93,7 @@ jobs:
               sudo apt-get install -y nodejs
               npm install
             fi
-            
+
             echo "=== Building project assets ==="
             if [ -f "package.json" ]; then
               echo "✅ package.json found"
@@ -96,7 +102,7 @@ jobs:
                 echo "Building with Vite..."
                 npm run build
                 echo "✅ Assets built successfully"
-                
+
                 # Проверяем результат сборки
                 if [ -d "public/build" ]; then
                   echo "✅ Build directory created"
@@ -120,44 +126,44 @@ jobs:
             else
               echo "❌ package.json not found"
             fi
-            
+
             echo "=== Setting up Laravel ==="
             if [ -f "artisan" ]; then
               echo "✅ Laravel artisan found"
-              
+
               # Проверяем .env файл
               if [ ! -f ".env" ]; then
                 echo "❌ .env file not found, copying from .env.example"
                 cp .env.example .env
                 php artisan key:generate
               fi
-              
+
               # Очищаем кэш
               echo "Clearing Laravel caches..."
               php artisan config:clear
               php artisan cache:clear
               php artisan view:clear
               php artisan route:clear
-              
+
               # Кэшируем для production
               echo "Caching for production..."
               php artisan config:cache
               php artisan route:cache
               php artisan view:cache
-              
+
               echo "✅ Laravel setup completed"
             else
               echo "❌ Laravel artisan not found"
             fi
-            
+
             echo "=== Setting permissions ==="
             echo "Setting proper ownership..."
             sudo chown -R www-data:www-data /var/www/miro
             sudo chmod -R 755 /var/www/miro
             sudo chmod -R 775 storage bootstrap/cache
-            
+
             echo "✅ Permissions set"
-            
+
             echo "=== Final project status ==="
             echo "Project structure:"
             ls -la
@@ -167,12 +173,12 @@ jobs:
             else
               echo "❌ Build failed or not configured"
             fi
-            
+
             echo "Laravel status:"
             if [ -f "artisan" ]; then
               php artisan --version
             fi
-            
+
             echo "=== Server info ==="
             uname -a
             df -h
@@ -181,7 +187,7 @@ jobs:
             sudo systemctl reload nginx
             sudo systemctl reload php8.2-fpm
             echo "✅ Services restarted"
-            
+
             echo "=== Final status ==="
             echo "✅ Laravel site is ready!"
             echo "✅ Nginx configured"
