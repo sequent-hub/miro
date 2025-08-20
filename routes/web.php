@@ -36,7 +36,7 @@ Route::prefix('api/moodboard')->group(function () {
 });
 
 Route::get('/test', function () {
-    return 'Вот теперь точно должно все работать';
+    return 'Вот теперь точно должно все работать!';
 });
 
 require __DIR__.'/auth.php';
