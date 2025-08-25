@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MoodBoardController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\FileController;
 
 // API маршруты для moodboard
 Route::prefix('moodboard')->group(function () {
@@ -29,6 +30,16 @@ Route::prefix('images')->group(function () {
     Route::get('/', [ImageController::class, 'index']); // Список всех изображений
     Route::post('/bulk-delete', [ImageController::class, 'bulkDelete']); // Массовое удаление
     Route::post('/cleanup', [ImageController::class, 'cleanup']); // Очистка неиспользуемых
+});
+
+// Группа роутов для работы с файлами
+Route::prefix('files')->group(function () {
+    Route::post('/upload', [FileController::class, 'upload']);
+    Route::get('/{id}', [FileController::class, 'show']);
+    Route::put('/{id}', [FileController::class, 'update']);
+    Route::get('/{id}/download', [FileController::class, 'download']);
+    Route::delete('/{id}', [FileController::class, 'destroy']);
+    Route::post('/cleanup', [FileController::class, 'cleanup']);
 });
 
 Route::post('/test', function (){
