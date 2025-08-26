@@ -62,6 +62,35 @@ jobs:
               sudo chown -R sequent:sequent .
             fi
 
+            echo "=== Updating .env file with secrets ==="
+            cd /var/www/miro
+            if [ ! -f ".env" ]; then
+              echo "❌ .env file not found, copying from .env.example"
+              cp .env.example .env
+            fi
+
+            # Функция для безопасного обновления/добавления переменных в .env
+            set_env_var() {
+              VAR_NAME=$1
+              VAR_VALUE=$2
+              FILE=$3
+              if grep -q "^${VAR_NAME}=" "$FILE"; then
+                sed -i "s|^${VAR_NAME}=.*|${VAR_NAME}=${VAR_VALUE}|" "$FILE"
+              else
+                echo "${VAR_NAME}=${VAR_VALUE}" >> "$FILE"
+              fi
+            }
+
+            set_env_var "APP_KEY" "${{ secrets.APP_KEY }}" ".env"
+            set_env_var "APP_URL" "${{ secrets.APP_URL }}" ".env"
+            set_env_var "DB_HOST" "${{ secrets.DB_HOST }}" ".env"
+            set_env_var "DB_DATABASE" "${{ secrets.DB_DATABASE }}" ".env"
+            set_env_var "DB_USERNAME" "${{ secrets.DB_USERNAME }}" ".env"
+            set_env_var "DB_PASSWORD" "${{ secrets.DB_PASSWORD }}" ".env"
+
+            echo "Updated .env file:"
+            grep -E "^(APP_KEY|APP_URL|DB_HOST|DB_DATABASE|DB_USERNAME|DB_PASSWORD)=" .env
+
             echo "=== Final project status ==="
             cd /var/www/miro
             pwd
@@ -131,13 +160,6 @@ jobs:
             echo "=== Setting up Laravel ==="
             if [ -f "artisan" ]; then
               echo "✅ Laravel artisan found"
-
-              # Проверяем .env файл
-              if [ ! -f ".env" ]; then
-                echo "❌ .env file not found, copying from .env.example"
-                cp .env.example .env
-                php artisan key:generate
-              fi
 
               # Очищаем кэш
               echo "Clearing Laravel caches..."

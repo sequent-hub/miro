@@ -10,7 +10,6 @@
 </head>
 <body>
 <div class="container mx-auto py-8">
-    <h1>Holst и все работает!</h1>
     <!-- Только контейнер - все остальное делает пакет -->
     <div id="moodboard-container" style="height: 900px; width: 100%;" data-board-id="OMiJ8YdfdPY"></div>
 </div>
