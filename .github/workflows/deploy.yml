@@ -114,6 +114,14 @@ jobs:
             echo "=== Installing Node.js dependencies ==="
             if command -v npm &> /dev/null; then
               echo "✅ npm found"
+              
+              # Используем продакшн package.json без локальных зависимостей
+              if [ -f "package.prod.json" ]; then
+                echo "✅ Found package.prod.json, using it for production"
+                cp package.prod.json package.json
+                echo "✅ Switched to production package.json"
+              fi
+              
               npm install
               echo "✅ Node.js dependencies installed"
             else
@@ -121,6 +129,14 @@ jobs:
               echo "Installing Node.js..."
               curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
               sudo apt-get install -y nodejs
+              
+              # Используем продакшн package.json без локальных зависимостей
+              if [ -f "package.prod.json" ]; then
+                echo "✅ Found package.prod.json, using it for production"
+                cp package.prod.json package.json
+                echo "✅ Switched to production package.json"
+              fi
+              
               npm install
             fi
 
