@@ -19,5 +19,10 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+
+        // Запускаем сидер для досок настроения
+        $this->call([
+            MoodBoardSeeder::class,
+        ]);
     }
 }
