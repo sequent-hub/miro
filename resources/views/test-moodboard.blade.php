@@ -9,7 +9,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
-<p>Страница с доской!</p>
+<p>Страница с доской!!!</p>
 <div class="container mx-auto py-8">
     <!-- Только контейнер - все остальное делает пакет -->
     <div id="moodboard-container" style="height: 900px; width: 100%;" data-board-id="OMiJ8YdfdPY"></div>
