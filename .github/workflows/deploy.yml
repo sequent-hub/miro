@@ -122,6 +122,13 @@ jobs:
                 echo "✅ Switched to production package.json"
               fi
               
+              # Используем продакшн vite.config.js без локальных алиасов
+              if [ -f "vite.config.prod.js" ]; then
+                echo "✅ Found vite.config.prod.js, using it for production"
+                cp vite.config.prod.js vite.config.js
+                echo "✅ Switched to production vite.config.js"
+              fi
+              
               npm install
               echo "✅ Node.js dependencies installed"
             else
@@ -135,6 +142,13 @@ jobs:
                 echo "✅ Found package.prod.json, using it for production"
                 cp package.prod.json package.json
                 echo "✅ Switched to production package.json"
+              fi
+              
+              # Используем продакшн vite.config.js без локальных алиасов
+              if [ -f "vite.config.prod.js" ]; then
+                echo "✅ Found vite.config.prod.js, using it for production"
+                cp vite.config.prod.js vite.config.js
+                echo "✅ Switched to production vite.config.js"
               fi
               
               npm install

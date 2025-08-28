@@ -1,7 +1,6 @@
-// vite.config.js
+// vite.config.prod.js
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
-import { resolve } from 'path';
 
 export default defineConfig({
     plugins: [
@@ -13,9 +12,5 @@ export default defineConfig({
             refresh: true,
         }),
     ],
-    resolve: {
-        alias: {
-            '@sequent-org/moodboard': resolve(__dirname, '../npm-moodboard-futurello'),
-        },
-    },
+    // В продакшн версии используем npm пакет, а не локальный алиас
 });

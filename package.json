@@ -3,7 +3,9 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
-        "dev": "vite"
+        "dev": "vite",
+        "build:prod": "cp package.prod.json package.json && cp vite.config.prod.js vite.config.js && npm install && vite build",
+        "dev:prod": "cp package.prod.json package.json && cp vite.config.prod.js vite.config.js && npm install && vite"
     },
     "dependencies": {
         "@tailwindcss/vite": "^4.0.7",
@@ -13,14 +15,10 @@
         "fabric": "^6.7.0",
         "laravel-vite-plugin": "^1.0",
         "tailwindcss": "^4.0.7",
-        "vite": "^6.0",
-        "@sequent-org/moodboard": "^1.0.0"
+        "vite": "^6.0"
     },
     "overrides": {
-        "@sequent-org/moodboard": "file:D:/npm-moodboard-futurello"
-    },
-    "resolutions": {
-        "@sequent-org/moodboard": "^1.0.0"
+        "@sequent-org/moodboard": "file:../npm-moodboard-futurello"
     },
     "optionalDependencies": {
         "@rollup/rollup-linux-x64-gnu": "4.9.5",

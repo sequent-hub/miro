@@ -1,32 +1,107 @@
-import { MoodBoard } from '@futurello/moodboard';
-import '@futurello/moodboard/style.css';
+// Отладочная информация о загрузке модулей
+console.log('🔍 Начинаем загрузку app.js...');
+console.log('📍 Текущий URL:', window.location.href);
+console.log('🕐 Время загрузки:', new Date().toISOString());
+console.log('🌐 User Agent:', navigator.userAgent);
+
+// Проверяем доступность Vite
+if (typeof import.meta !== 'undefined') {
+    console.log('✅ Vite доступен, import.meta:', import.meta);
+} else {
+    console.warn('⚠️ Vite не доступен');
+}
+
+// Проверяем доступность модуля
+let MoodBoard;
+let moodboardStyles;
+
+try {
+    console.log('📦 Пытаемся импортировать MoodBoard...');
+    const moodboardModule = await import('@sequent-org/moodboard');
+    console.log('✅ Модуль MoodBoard загружен:', moodboardModule);
+    console.log('🔍 Структура модуля:', Object.keys(moodboardModule));
+    console.log('🔍 Тип модуля:', typeof moodboardModule);
+    console.log('🔍 Прототип модуля:', moodboardModule.__proto__);
+    
+    // Проверяем все возможные варианты экспорта
+    MoodBoard = moodboardModule.MoodBoard || moodboardModule.default || moodboardModule;
+    console.log('✅ MoodBoard класс получен:', MoodBoard);
+    console.log('🔍 Тип MoodBoard:', typeof MoodBoard);
+    console.log('🔍 Конструктор MoodBoard:', MoodBoard?.constructor);
+    
+    if (!MoodBoard) {
+        throw new Error('MoodBoard класс не найден в модуле');
+    }
+    
+    if (typeof MoodBoard !== 'function') {
+        throw new Error(`MoodBoard не является функцией/классом. Тип: ${typeof MoodBoard}`);
+    }
+} catch (importError) {
+    console.error('❌ Ошибка импорта MoodBoard:', importError);
+    console.error('Детали ошибки:', {
+        message: importError.message,
+        stack: importError.stack,
+        name: importError.name
+    });
+    
+    // Показываем ошибку пользователю
+    showError(`Ошибка загрузки модуля: ${importError.message}`);
+    return;
+}
+
+try {
+    console.log('🎨 Пытаемся импортировать стили...');
+    await import('@sequent-org/moodboard/style.css');
+    console.log('✅ Стили загружены');
+} catch (styleError) {
+    console.warn('⚠️ Ошибка загрузки стилей:', styleError);
+    // Стили не критичны, продолжаем
+}
 
 document.addEventListener('DOMContentLoaded', async () => {
-   /* console.log('🚀 Инициализация MoodBoard...');*/
+    console.log('🚀 DOM загружен, начинаем инициализацию MoodBoard...');
 
     try {
         // Получаем ID доски (можно настроить под свои нужды)
         const boardId = getBoardId();
+        console.log('🆔 ID доски получен:', boardId);
+
+        // Проверяем контейнер
+        const container = document.getElementById('moodboard-container');
+        console.log('📦 Контейнер найден:', container);
+
+        if (!container) {
+            throw new Error('Контейнер #moodboard-container не найден на странице');
+        }
 
         // Создаем MoodBoard с автосохранением
+        console.log('🔧 Создаем экземпляр MoodBoard...');
         const moodboard = new MoodBoard('#moodboard-container', {
             boardId: boardId,
             saveEndpoint: '/api/moodboard/save',
             loadEndpoint: '/api/moodboard/load',
             theme: 'light'
         });
+        console.log('✅ MoodBoard экземпляр создан:', moodboard);
 
         // Для отладки (как у вас было)
         window.moodboard = moodboard;
+        console.log('🌐 MoodBoard добавлен в window.moodboard');
 
         // Настраиваем обработчики событий автосохранения
         setupEventHandlers(moodboard);
+        console.log('✅ Обработчики событий настроены');
 
-       /* console.log('✅ MoodBoard успешно инициализирован с автосохранением');*/
+        console.log('🎉 MoodBoard успешно инициализирован с автосохранением');
 
     } catch (error) {
-       // console.error('❌ Ошибка инициализации MoodBoard:', error);
-        showError('Не удалось загрузить редактор. Попробуйте обновить страницу.');
+        console.error('❌ Ошибка инициализации MoodBoard:', error);
+        console.error('Детали ошибки:', {
+            message: error.message,
+            stack: error.stack,
+            name: error.name
+        });
+        showError(`Не удалось загрузить редактор: ${error.message}`);
     }
 });
 
