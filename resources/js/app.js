@@ -15,6 +15,24 @@ if (typeof import.meta !== 'undefined') {
 let MoodBoard;
 let moodboardStyles;
 
+// Проверяем, что npm установил пакет
+console.log('🔍 Проверяем node_modules...');
+try {
+    const fs = await import('fs');
+    console.log('✅ fs модуль доступен');
+} catch (e) {
+    console.log('❌ fs модуль недоступен в браузере');
+}
+
+console.log('🔍 Проверяем доступность пакета...');
+try {
+    // Пробуем динамический импорт с полным путем
+    const moodboardModule = await import('/node_modules/@sequent-org/moodboard/src/index.js');
+    console.log('✅ Прямой импорт сработал:', moodboardModule);
+} catch (e) {
+    console.log('❌ Прямой импорт не сработал:', e.message);
+}
+
 try {
     console.log('📦 Пытаемся импортировать MoodBoard...');
     const moodboardModule = await import('@sequent-org/moodboard');
