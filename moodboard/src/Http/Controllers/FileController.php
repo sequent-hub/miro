@@ -1,13 +1,14 @@
 <?php
 
-namespace YourVendor\MoodBoard\Http\Controllers;
+namespace Futurello\MoodBoard\Http\Controllers;
 
-use YourVendor\MoodBoard\Models\File;
+use Futurello\MoodBoard\Models\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Routing\Controller;
 
 class FileController extends Controller
 {

@@ -39,7 +39,7 @@ composer require futurello/moodboard
 ```php
 'providers' => [
     // ...
-    YourVendor\MoodBoard\Providers\MoodBoardServiceProvider::class,
+    Futurello\MoodBoard\Providers\MoodBoardServiceProvider::class,
 ],
 ```
 
@@ -118,7 +118,7 @@ php artisan migrate
 ### Создание moodboard:
 
 ```php
-use YourVendor\MoodBoard\Models\MoodBoard;
+use Futurello\MoodBoard\Models\MoodBoard;
 
 $moodboard = MoodBoard::create([
     'board_id' => 'unique-id',
@@ -132,7 +132,7 @@ $moodboard = MoodBoard::create([
 ### Загрузка изображения:
 
 ```php
-use YourVendor\MoodBoard\Models\Image;
+use Futurello\MoodBoard\Models\Image;
 
 $image = Image::create([
     'name' => 'My Image',

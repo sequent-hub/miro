@@ -1,9 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use YourVendor\MoodBoard\Http\Controllers\MoodBoardController;
-use YourVendor\MoodBoard\Http\Controllers\ImageController;
-use YourVendor\MoodBoard\Http\Controllers\FileController;
+use Futurello\MoodBoard\Http\Controllers\MoodBoardController;
+use Futurello\MoodBoard\Http\Controllers\ImageController;
+use Futurello\MoodBoard\Http\Controllers\FileController;
+
+// Оборачиваем все маршруты в группу api
+Route::prefix('api')->group(function () {
 
 // API маршруты для moodboard
 Route::prefix('moodboard')->group(function () {
@@ -41,3 +44,4 @@ Route::prefix('files')->group(function () {
     Route::delete('/{id}', [FileController::class, 'destroy']);
     Route::post('/cleanup', [FileController::class, 'cleanup']);
 });
+}); // Закрываем группу api

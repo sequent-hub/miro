@@ -1,6 +1,6 @@
 <?php
 
-namespace YourVendor\MoodBoard\Models;
+namespace Futurello\MoodBoard\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;

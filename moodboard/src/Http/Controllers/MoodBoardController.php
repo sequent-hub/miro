@@ -1,13 +1,14 @@
 <?php
 
-namespace YourVendor\MoodBoard\Http\Controllers;
+namespace Futurello\MoodBoard\Http\Controllers;
 
-use YourVendor\MoodBoard\Models\MoodBoard;
-use YourVendor\MoodBoard\Models\Image;
+use Futurello\MoodBoard\Models\MoodBoard;
+use Futurello\MoodBoard\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Routing\Controller;
 
 class MoodBoardController extends Controller
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace YourVendor\MoodBoard\Providers;
+namespace Futurello\MoodBoard\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;

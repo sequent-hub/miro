@@ -1,13 +1,14 @@
 <?php
 
-namespace YourVendor\MoodBoard\Http\Controllers;
+namespace Futurello\MoodBoard\Http\Controllers;
 
-use YourVendor\MoodBoard\Models\Image;
+use Futurello\MoodBoard\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image as InterventionImage;
+use Illuminate\Routing\Controller;
 
 class ImageController extends Controller
 {

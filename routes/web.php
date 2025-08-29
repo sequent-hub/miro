@@ -20,9 +20,39 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
 });
 
-// routes/web.php
+// Тестовые маршруты для проверки пакета moodboard
 Route::get('/test-moodboard', function () {
     return view('test-moodboard');
+});
+
+Route::get('/test-moodboard-api', function () {
+    // Проверяем, что модели пакета доступны
+    try {
+        $moodboardClass = \Futurello\MoodBoard\Models\MoodBoard::class;
+        $imageClass = \Futurello\MoodBoard\Models\Image::class;
+        $fileClass = \Futurello\MoodBoard\Models\File::class;
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Пакет moodboard успешно подключен!',
+            'models' => [
+                'MoodBoard' => $moodboardClass,
+                'Image' => $imageClass,
+                'File' => $fileClass
+            ],
+            'routes' => [
+                'moodboard_list' => url('/api/moodboard/list'),
+                'moodboard_save' => url('/api/moodboard/save'),
+                'images_upload' => url('/api/images/upload'),
+                'files_upload' => url('/api/files/upload')
+            ]
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Ошибка подключения пакета: ' . $e->getMessage()
+        ], 500);
+    }
 });
 
 // API маршруты для moodboard
