@@ -5,42 +5,42 @@ use App\Http\Controllers\MoodBoardController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\FileController;
 
-// API маршруты для moodboard
-Route::prefix('moodboard')->group(function () {
-    Route::post('/save', [MoodBoardController::class, 'save']);
-    Route::get('/load/{boardId}', [MoodBoardController::class, 'load']);
-    Route::get('/{boardId}', [MoodBoardController::class, 'load']); // Новый: для совместимости с frontend
-    Route::get('/list', [MoodBoardController::class, 'index']);
-    Route::get('/show/{boardId}', [MoodBoardController::class, 'show']);
-    Route::delete('/delete/{boardId}', [MoodBoardController::class, 'destroy']);
-    Route::post('/duplicate/{boardId}', [MoodBoardController::class, 'duplicate']);
+// API маршруты для moodboard - УДАЛЕНО, используется пакет
+// Route::prefix('moodboard')->group(function () {
+//     Route::post('/save', [MoodBoardController::class, 'save']);
+//     Route::get('/load/{boardId}', [MoodBoardController::class, 'load']);
+//     Route::get('/{boardId}', [MoodBoardController::class, 'load']); // Новый: для совместимости с frontend
+//     Route::get('/list', [MoodBoardController::class, 'index']);
+//     Route::get('/show/{boardId}', [MoodBoardController::class, 'show']);
+//     Route::delete('/delete/{boardId}', [MoodBoardController::class, 'destroy']);
+//     Route::post('/duplicate/{boardId}', [MoodBoardController::class, 'duplicate']);
 
-    // Новый: статистика изображений для доски
-    Route::get('/{boardId}/images/stats', [MoodBoardController::class, 'getImageStats']);
-});
+//     // Новый: статистика изображений для доски
+//     Route::get('/{boardId}/images/stats', [MoodBoardController::class, 'getImageStats']);
+// });
 
-// Изображения
-Route::prefix('images')->group(function () {
-    Route::post('/upload', [ImageController::class, 'upload']);
-    Route::get('/{id}', [ImageController::class, 'show']);
-    Route::get('/{id}/file', [ImageController::class, 'file'])->name('images.file');
-    Route::delete('/{id}', [ImageController::class, 'destroy']);
+// Изображения - УДАЛЕНО, используется пакет
+// Route::prefix('images')->group(function () {
+//     Route::post('/upload', [ImageController::class, 'upload']);
+//     Route::get('/{id}', [ImageController::class, 'show']);
+//     Route::get('/{id}/file', [ImageController::class, 'file'])->name('images.file');
+//     Route::delete('/{id}', [ImageController::class, 'destroy']);
 
-    // Дополнительные маршруты для управления изображениями
-    Route::get('/', [ImageController::class, 'index']); // Список всех изображений
-    Route::post('/bulk-delete', [ImageController::class, 'bulkDelete']); // Массовое удаление
-    Route::post('/cleanup', [ImageController::class, 'cleanup']); // Очистка неиспользуемых
-});
+//     // Дополнительные маршруты для управления изображениями
+//     Route::get('/', [ImageController::class, 'index']); // Список всех изображений
+//     Route::post('/bulk-delete', [ImageController::class, 'bulkDelete']); // Массовое удаление
+//     Route::post('/cleanup', [ImageController::class, 'cleanup']); // Очистка неиспользуемых
+// });
 
-// Группа роутов для работы с файлами
-Route::prefix('files')->group(function () {
-    Route::post('/upload', [FileController::class, 'upload']);
-    Route::get('/{id}', [FileController::class, 'show']);
-    Route::put('/{id}', [FileController::class, 'update']);
-    Route::get('/{id}/download', [FileController::class, 'download']);
-    Route::delete('/{id}', [FileController::class, 'destroy']);
-    Route::post('/cleanup', [FileController::class, 'cleanup']);
-});
+// Группа роутов для работы с файлами - УДАЛЕНО, используется пакет
+// Route::prefix('files')->group(function () {
+//     Route::post('/upload', [FileController::class, 'upload']);
+//     Route::get('/{id}', [FileController::class, 'show']);
+//     Route::put('/{id}', [FileController::class, 'update']);
+//     Route::get('/{id}/download', [FileController::class, 'download']);
+//     Route::delete('/{id}', [FileController::class, 'destroy']);
+//     Route::post('/cleanup', [FileController::class, 'cleanup']);
+// });
 
 Route::post('/test', function (){
     return 1111;
